@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/theme_entity.dart';
-import '../../domain/entities/theme_mode.dart';
 import '../../domain/usecases/get_theme.dart';
 import '../../domain/usecases/save_theme.dart';
 import '../../../logger/logger.dart';
@@ -28,7 +27,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     emit(const ThemeLoading());
     
     try {
-      await Logger.info('Carregando tema da aplicação', tag: 'THEME');
+      await Logger.info('Carregando tema da aplicação...', tag: 'THEME');
       final theme = await _getTheme();
       emit(ThemeLoaded(theme));
       
