@@ -18,15 +18,8 @@ class ThemeWrapper extends StatelessWidget {
       create: (context) => getIt<ThemeBloc>()..add(const ThemeLoadRequested()),
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
-          if (state is ThemeLoaded) {
-            return Theme(
-              data: _getThemeData(state.theme.isDark),
-              child: child,
-            );
-          }
-          
           return Theme(
-            data: _getThemeData(true),
+            data: _getThemeData(state is ThemeLoaded ? state.theme.isDark : true), 
             child: child,
           );
         },
@@ -34,14 +27,12 @@ class ThemeWrapper extends StatelessWidget {
     );
   }
 
-  ThemeData _getThemeData(bool isDark) {
-    return isDark ? AppTheme.darkTheme : AppTheme.lightTheme;
-  }
+  ThemeData _getThemeData(bool isDark) => isDark ? AppTheme.darkTheme : AppTheme.lightTheme;
 }
 
 extension ThemeBlocExtension on BuildContext {
   ThemeBloc get themeBloc => read<ThemeBloc>();
-  
+
   void changeThemeMode(AppThemeMode mode) {
     themeBloc.add(ThemeModeChanged(mode));
   }
