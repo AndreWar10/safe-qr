@@ -18,6 +18,7 @@ import 'core/storage/domain/usecases/clear_local_storage.dart';
 import 'core/storage/domain/services/local_storage_service.dart';
 import 'core/storage/data/services/local_storage_service_impl.dart';
 import 'core/theme/data/services/theme_storage_service.dart';
+import 'core/navigation/presentation/cubit/navigation_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -75,6 +76,10 @@ Future<void> configureDependencies() async {
       getTheme: getIt<GetTheme>(),
       saveTheme: getIt<SaveTheme>(),
     ),
+  );
+
+  getIt.registerFactory<NavigationCubit>(
+    () => NavigationCubit(),
   );
 
   getIt.registerLazySingleton<LoggerRepository>(

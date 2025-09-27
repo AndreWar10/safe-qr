@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/theme_entity.dart';
 import '../../domain/usecases/get_theme.dart';
 import '../../domain/usecases/save_theme.dart';
-import '../../../logger/logger.dart';
+import '../../../logger/presentation/services/app_logger.dart';
 import 'theme_event.dart';
 import 'theme_state.dart';
 
@@ -27,11 +27,11 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     emit(const ThemeLoading());
     
     try {
-      await Logger.info('Carregando tema da aplicação...', tag: 'THEME');
+      await AppLogger.info('Carregando tema da aplicação...', tag: 'THEME');
       final theme = await _getTheme();
       emit(ThemeLoaded(theme));
       
-      await Logger.success(
+      await AppLogger.success(
         'Tema carregado com sucesso',
         tag: 'THEME',
         metadata: {
@@ -40,7 +40,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         },
       );
     } catch (e) {
-      await Logger.errorWithException('Erro ao carregar tema', e, tag: 'THEME');
+      await AppLogger.errorWithException('Erro ao carregar tema', e, tag: 'THEME');
       emit(ThemeError(e.toString()));
     }
   }
@@ -50,7 +50,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     Emitter<ThemeState> emit,
   ) async {
     try {
-      await Logger.info(
+      await AppLogger.info(
         'Mudando tema da aplicação',
         tag: 'THEME',
         metadata: {
@@ -62,7 +62,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       await _saveTheme(newTheme);
       emit(ThemeLoaded(newTheme));
       
-      await Logger.success(
+      await AppLogger.success(
         'Tema alterado com sucesso',
         tag: 'THEME',
         metadata: {
@@ -71,7 +71,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         },
       );
     } catch (e) {
-      await Logger.errorWithException('Erro ao alterar tema', e, tag: 'THEME');
+      await AppLogger.errorWithException('Erro ao alterar tema', e, tag: 'THEME');
       emit(ThemeError(e.toString()));
     }
   }
