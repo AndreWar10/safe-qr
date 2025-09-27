@@ -4,6 +4,7 @@ import '../bloc/theme_bloc.dart';
 import '../bloc/theme_event.dart';
 import '../bloc/theme_state.dart';
 import '../../domain/entities/theme_mode.dart';
+import '../themes/app_theme.dart';
 import '../../../../injection.dart';
 
 class ThemeWrapper extends StatelessWidget {
@@ -24,7 +25,6 @@ class ThemeWrapper extends StatelessWidget {
             );
           }
           
-          // Fallback para tema escuro enquanto carrega
           return Theme(
             data: _getThemeData(true),
             child: child,
@@ -35,18 +35,10 @@ class ThemeWrapper extends StatelessWidget {
   }
 
   ThemeData _getThemeData(bool isDark) {
-    return ThemeData(
-      brightness: isDark ? Brightness.dark : Brightness.light,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.deepPurple,
-        brightness: isDark ? Brightness.dark : Brightness.light,
-      ),
-      useMaterial3: true,
-    );
+    return isDark ? AppTheme.darkTheme : AppTheme.lightTheme;
   }
 }
 
-// Extensão para facilitar o acesso ao ThemeBloc
 extension ThemeBlocExtension on BuildContext {
   ThemeBloc get themeBloc => read<ThemeBloc>();
   

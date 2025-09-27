@@ -10,16 +10,11 @@ import 'core/logger/domain/repositories/logger_repository.dart';
 import 'core/logger/domain/usecases/log_message.dart';
 import 'core/logger/domain/services/logger_service.dart';
 
-/// Service Locator global da aplicação
 final getIt = GetIt.instance;
 
-/// Configura todas as dependências da aplicação
 Future<void> configureDependencies() async {
-  // External dependencies
   final prefs = await SharedPreferences.getInstance();
   getIt.registerSingleton<SharedPreferences>(prefs);
-
-  // Theme dependencies
   getIt.registerLazySingleton<ThemeRepository>(
     () => ThemeRepositoryImpl(getIt<SharedPreferences>()),
   );
@@ -39,7 +34,6 @@ Future<void> configureDependencies() async {
     ),
   );
 
-  // Logger dependencies
   getIt.registerLazySingleton<LoggerRepository>(
     () => LoggerRepositoryImpl(),
   );

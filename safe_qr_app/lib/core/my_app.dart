@@ -9,10 +9,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
-      child: MaterialApp(
-        title: 'Safe QR App',
-        onGenerateRoute: AppRouter.generateRoute,
-        initialRoute: AppRoutes.home,
+      child: Builder(
+        builder: (context) {
+          return MaterialApp(
+            title: 'Safe QR App',
+            debugShowCheckedModeBanner: false,
+            theme: Theme.of(context),
+            onGenerateRoute: AppRouter.generateRoute,
+            initialRoute: AppRoutes.home,
+          );
+        },
       ),
     );
   }
