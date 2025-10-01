@@ -33,11 +33,9 @@ class HistoryState extends Equatable {
         errorMessage = null;
 
   const HistoryState.loaded({
-    required List<QrHistoryItem> generatedHistory,
-    required List<QrHistoryItem> scannedHistory,
-  }) : generatedHistory = generatedHistory,
-       scannedHistory = scannedHistory,
-       isLoading = false,
+    required this.generatedHistory,
+    required this.scannedHistory,
+  }) : isLoading = false,
        errorMessage = null;
 
   const HistoryState.error(String message)

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Teste - Coleta de Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .data-item {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 3px solid #007bff;
+        }
+        .test-btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .test-btn:hover {
+            background: #0056b3;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste de Coleta de Dados</h1>
+        <p>Este é um arquivo de teste simplificado para verificar se o JavaScript está funcionando.</p>
+        
+        <button class="test-btn" onclick="testBasicInfo()">🔍 Testar Coleta Básica</button>
+        <button class="test-btn" onclick="testFormData()">📝 Testar Dados do Formulário</button>
+        <button class="test-btn" onclick="clearResults()">🗑️ Limpar Resultados</button>
+        
+        <div id="results"></div>
+        
+        <h2>📊 Instruções de Teste:</h2>
+        <ol>
+            <li>Abra o Console (F12 → Console)</li>
+            <li>Clique nos botões de teste acima</li>
+            <li>Veja os resultados aqui e no console</li>
+            <li>Digite <code>userInfo</code> no console para ver o objeto</li>
+        </ol>
+    </div>
+
+    <script>
+        // Objeto global para armazenar dados
+        let userInfo = {};
+
+        // Função para testar coleta básica
+        function testBasicInfo() {
+            console.log('🧪 Testando coleta básica...');
+            
+            try {
+                userInfo = {
+                    timestamp: new Date().toLocaleString('pt-BR'),
+                    userAgent: navigator.userAgent,
+                    language: navigator.language,
+                    platform: navigator.platform,
+                    screenResolution: `${screen.width}x${screen.height}`,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    cookiesEnabled: navigator.cookieEnabled,
+                    onlineStatus: navigator.onLine,
+                    referrer: document.referrer || 'Acesso direto',
+                    test: 'Dados coletados com sucesso!'
+                };
+
+                console.log('✅ Dados coletados:', userInfo);
+                displayResults('Coleta Básica', userInfo);
+                
+            } catch (error) {
+                console.error('❌ Erro na coleta:', error);
+                displayError('Erro na coleta básica: ' + error.message);
+            }
+        }
+
+        // Função para testar dados do formulário
+        function testFormData() {
+            console.log('🧪 Testando dados do formulário...');
+            
+            try {
+                const formData = {
+                    name: 'João Silva (Teste)',
+                    email: 'joao@teste.com',
+                    phone: '(11) 99999-9999',
+                    address: 'Rua Teste, 123',
+                    cardNumber: '1234 5678 9012 3456',
+                    cvv: '123',
+                    test: 'Formulário simulado'
+                };
+
+                // Combina com dados básicos
+                const allData = {
+                    ...userInfo,
+                    formData: formData,
+                    collectionMethod: 'QR Code malicioso (Teste)',
+                    riskLevel: 'ALTO - Dados pessoais e financeiros coletados'
+                };
+
+                console.log('✅ Dados do formulário:', allData);
+                displayResults('Dados do Formulário', allData);
+                
+            } catch (error) {
+                console.error('❌ Erro no formulário:', error);
+                displayError('Erro no formulário: ' + error.message);
+            }
+        }
+
+        // Função para exibir resultados
+        function displayResults(title, data) {
+            const resultsDiv = document.getElementById('results');
+            let html = `<h3>📊 ${title}</h3>`;
+            
+            Object.entries(data).forEach(([key, value]) => {
+                if (typeof value === 'object' && value !== null) {
+                    html += `<div class="data-item"><strong>${key}:</strong><br>`;
+                    Object.entries(value).forEach(([subKey, subValue]) => {
+                        html += `&nbsp;&nbsp;${subKey}: ${subValue}<br>`;
+                    });
+                    html += `</div>`;
+                } else {
+                    html += `<div class="data-item"><strong>${key}:</strong> ${value}</div>`;
+                }
+            });
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        // Função para exibir erros
+        function displayError(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="error">❌ ${message}</div>`;
+        }
+
+        // Função para limpar resultados
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            console.log('🗑️ Resultados limpos');
+        }
+
+        // Teste automático ao carregar a página
+        window.addEventListener('load', function() {
+            console.log('🚀 Página carregada! JavaScript funcionando.');
+            console.log('💡 Digite "testBasicInfo()" no console para testar');
+            
+            // Teste básico automático
+            setTimeout(() => {
+                testBasicInfo();
+            }, 1000);
+        });
+
+        // Log de debug
+        console.log('🧪 Arquivo de teste carregado');
+        console.log('💡 Comandos disponíveis:');
+        console.log('   - testBasicInfo()');
+        console.log('   - testFormData()');
+        console.log('   - clearResults()');
+        console.log('   - userInfo (para ver dados coletados)');
+    </script>
+</body>
+</html>

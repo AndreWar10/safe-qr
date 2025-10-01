@@ -154,7 +154,7 @@ class HistoryListView extends StatelessWidget {
                 color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+                  color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
                 ),
               ),
               child: Text(
@@ -180,10 +180,10 @@ class HistoryListView extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: _getSecurityColor(context, item.securityLevel!).withOpacity(0.1),
+                  color: _getSecurityColor(context, item.securityLevel!).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: _getSecurityColor(context, item.securityLevel!).withOpacity(0.3),
+                    color: _getSecurityColor(context, item.securityLevel!).withValues(alpha: 0.3),
                   ),
                 ),
                 child: Row(
@@ -256,7 +256,6 @@ class HistoryListView extends StatelessWidget {
   }
 
   void _shareItem(BuildContext context, QrHistoryItem item) {
-    // TODO: Implementar compartilhamento
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Funcionalidade de compartilhamento em desenvolvimento'),
