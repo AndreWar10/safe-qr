@@ -14,8 +14,6 @@ class GenerateQrPage extends StatefulWidget {
 }
 
 class _GenerateQrPageState extends State<GenerateQrPage> with WidgetsBindingObserver {
-  QrGeneratorCubit? _cubit;
-
   @override
   void initState() {
     super.initState();
@@ -25,7 +23,7 @@ class _GenerateQrPageState extends State<GenerateQrPage> with WidgetsBindingObse
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _cubit?.clearResources();
+    context.read<QrGeneratorCubit>().clearResources();
     super.dispose();
   }
 
@@ -33,7 +31,7 @@ class _GenerateQrPageState extends State<GenerateQrPage> with WidgetsBindingObse
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // Limpa recursos quando app vai para background
     if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
-      _cubit?.clearResources();
+      context.read<QrGeneratorCubit>().clearResources();
     }
   }
 
@@ -43,12 +41,9 @@ class _GenerateQrPageState extends State<GenerateQrPage> with WidgetsBindingObse
       appBar: AppBar(
         title: const Text('QR Code'),
       ),
-      body: BlocProvider(
-        create: (context) {
-          _cubit = QrGeneratorCubit();
-          return _cubit!;
-        },
-        child: SingleChildScrollView(
+      body: BlocBuilder<QrGeneratorCubit, QrGeneratorState>(
+        builder: (context, state) {
+          return SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -135,7 +130,8 @@ class _GenerateQrPageState extends State<GenerateQrPage> with WidgetsBindingObse
               const SizedBox(height: 16),
             ],
           ),
-        ),
+        );
+        },
       ),
     );
   }

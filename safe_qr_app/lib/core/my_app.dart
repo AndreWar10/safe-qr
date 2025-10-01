@@ -6,6 +6,8 @@ import 'package:safe_qr_app/core/theme/presentation/widgets/theme_wrapper.dart';
 import 'package:safe_qr_app/core/theme/presentation/bloc/theme_bloc.dart';
 import 'package:safe_qr_app/core/navigation/presentation/cubit/navigation_cubit.dart';
 import 'package:safe_qr_app/features/scan_qr/presentation/cubit/scan_qr_cubit.dart';
+import 'package:safe_qr_app/features/history/presentation/cubit/history_cubit.dart';
+import 'package:safe_qr_app/features/generate_qr/presentation/cubit/qr_generator_cubit.dart';
 import 'package:safe_qr_app/injection.dart';
 
 class MyApp extends StatelessWidget {
@@ -33,6 +35,12 @@ class MyApp extends StatelessWidget {
                   ),
                   BlocProvider(
                     create: (_) => getIt<ScanQrCubit>(),
+                  ),
+                  BlocProvider(
+                    create: (_) => getIt<HistoryCubit>(),
+                  ),
+                  BlocProvider(
+                    create: (_) => getIt<QrGeneratorCubit>(),
                   ),
                 ],
                 child: child!,

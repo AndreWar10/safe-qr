@@ -7,12 +7,22 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../domain/entities/qr_code_data.dart';
 import 'qr_generator_state.dart';
+import '../../../history/domain/entities/qr_history_item.dart';
+import '../../../history/domain/usecases/save_history_item.dart';
+import '../../../history/presentation/cubit/history_cubit.dart';
 
 class QrGeneratorCubit extends Cubit<QrGeneratorState> {
   File? _cachedQrImage;
   QrCodeData? _cachedQrData;
+  final SaveHistoryItem _saveHistoryItem;
+  final HistoryCubit _historyCubit;
 
-  QrGeneratorCubit() : super(const QrGeneratorInitial());
+  QrGeneratorCubit({
+    required SaveHistoryItem saveHistoryItem,
+    required HistoryCubit historyCubit,
+  }) : _saveHistoryItem = saveHistoryItem,
+       _historyCubit = historyCubit,
+       super(const QrGeneratorInitial());
 
   /// Limpa recursos para economizar memória
   void clearResources() {
@@ -54,9 +64,37 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
         }
 
         emit(QrGeneratorSuccess(qrData));
+        
+        // Salva no histórico
+        _saveToHistory(qrData);
       });
     } catch (e) {
       emit(QrGeneratorError('Erro ao gerar QR Code: ${e.toString()}'));
+    }
+  }
+
+  /// Salva o QR Code gerado no histórico
+  Future<void> _saveToHistory(QrCodeData qrData) async {
+    try {
+      final historyItem = QrHistoryItem(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        content: qrData.content,
+        title: qrData.title,
+        type: QrHistoryType.generated,
+        createdAt: DateTime.now(),
+        qrType: qrData.type.name,
+      );
+      
+      await _saveHistoryItem(historyItem);
+      
+      // Notifica o HistoryCubit para recarregar
+      _historyCubit.loadHistory();
+      
+      // Notifica que um novo item foi adicionado ao histórico
+      debugPrint('✅ QR Code salvo no histórico: ${qrData.content}');
+    } catch (e) {
+      // Log do erro, mas não interrompe o fluxo principal
+      debugPrint('❌ Erro ao salvar no histórico: $e');
     }
   }
 
