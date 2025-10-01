@@ -19,33 +19,50 @@ class ScanQrPage extends StatefulWidget {
 
 class _ScanQrPageState extends State<ScanQrPage> {
   MobileScannerController? _controller;
-  bool _isInitialized = false;
+  bool _isScanning = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeScanner();
+    _checkPermission();
   }
 
-  Future<void> _initializeScanner() async {
+  Future<void> _checkPermission() async {
+    final permission = await Permission.camera.status;
+    if (permission.isGranted) {
+      context.read<ScanQrCubit>().setPermissionStatus(true);
+    } else {
+      context.read<ScanQrCubit>().setPermissionDenied();
+    }
+  }
+
+  Future<void> _startScanning() async {
     try {
-      _controller = MobileScannerController();
-      await _controller!.start();
-      
-      final permission = await Permission.camera.status;
-      if (permission.isGranted) {
-        context.read<ScanQrCubit>().setPermissionStatus(true);
-        context.read<ScanQrCubit>().startScanning();
-      } else {
-        context.read<ScanQrCubit>().setPermissionDenied();
+      if (_controller == null) {
+        _controller = MobileScannerController();
+        await _controller!.start();
       }
       
+      context.read<ScanQrCubit>().startScanning();
       setState(() {
-        _isInitialized = true;
+        _isScanning = true;
       });
     } catch (e) {
       context.read<ScanQrCubit>().setCameraNotAvailable();
     }
+  }
+
+  Future<void> _stopScanning() async {
+    if (_controller != null) {
+      await _controller!.stop();
+      _controller?.dispose();
+      _controller = null;
+    }
+    
+    context.read<ScanQrCubit>().stopScanning();
+    setState(() {
+      _isScanning = false;
+    });
   }
 
   @override
@@ -66,8 +83,8 @@ class _ScanQrPageState extends State<ScanQrPage> {
   }
 
   Future<void> _showScanResult(String qrContent) async {
-    // Para o scanner temporariamente
-    context.read<ScanQrCubit>().stopScanning();
+    // Para o scanner
+    await _stopScanning();
     
     // Processa o QR Code
     await context.read<ScanQrCubit>().processScannedQr(qrContent);
@@ -86,9 +103,6 @@ class _ScanQrPageState extends State<ScanQrPage> {
         context: context,
         builder: (context) => ScanResultDialog(scannedData: scannedData),
       );
-      
-      // Reinicia o scanner
-      context.read<ScanQrCubit>().startScanning();
     }
   }
 
@@ -99,7 +113,7 @@ class _ScanQrPageState extends State<ScanQrPage> {
         title: const Text('Scanner QR Code'),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
+        actions: _isScanning ? [
           IconButton(
             icon: const Icon(Icons.flash_on),
             onPressed: () {
@@ -112,7 +126,7 @@ class _ScanQrPageState extends State<ScanQrPage> {
               _controller?.switchCamera();
             },
           ),
-        ],
+        ] : null,
       ),
       body: BlocConsumer<ScanQrCubit, ScanState>(
         listener: (context, state) {
@@ -130,46 +144,112 @@ class _ScanQrPageState extends State<ScanQrPage> {
             return _buildPermissionDenied();
           }
 
-          if (!_isInitialized || _controller == null) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+          if (_isScanning && _controller != null) {
+            return _buildScannerView();
           }
 
-          return Stack(
-            children: [
-              MobileScanner(
-                controller: _controller!,
-                onDetect: _onDetect,
-              ),
-              const ScannerOverlay(),
-              if (state.isScanning)
-                Positioned(
-                  bottom: 100,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 32),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.7),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Text(
-                      'Posicione o QR Code dentro do frame',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          );
+          return _buildInitialView();
         },
       ),
+    );
+  }
+
+  Widget _buildInitialView() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Icon(
+                Icons.qr_code_scanner,
+                size: 80,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
+            const SizedBox(height: 32),
+            Text(
+              'Scanner QR Code',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Toque no botão abaixo para iniciar o scanner e escanear QR Codes com segurança.',
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 48),
+            FilledButton.icon(
+              onPressed: _startScanning,
+              icon: const Icon(Icons.qr_code_scanner),
+              label: const Text('Iniciar Scanner'),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              ).copyWith(
+                textStyle: MaterialStateProperty.all(
+                  const TextStyle(
+                    fontSize: 18, 
+                    fontWeight: FontWeight.w600,
+                    inherit: false,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildScannerView() {
+    return Stack(
+      children: [
+        MobileScanner(
+          controller: _controller!,
+          onDetect: _onDetect,
+        ),
+        const ScannerOverlay(),
+        Positioned(
+          bottom: 100,
+          left: 0,
+          right: 0,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 32),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.7),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text(
+              'Posicione o QR Code dentro do frame',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 20,
+          right: 20,
+          child: FloatingActionButton(
+            onPressed: _stopScanning,
+            backgroundColor: Colors.red,
+            child: const Icon(Icons.stop, color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 
@@ -199,13 +279,12 @@ class _ScanQrPageState extends State<ScanQrPage> {
             ),
             const SizedBox(height: 32),
             FilledButton.icon(
-              onPressed: () async {
-                final permission = await Permission.camera.request();
-                if (permission.isGranted) {
-                  context.read<ScanQrCubit>().setPermissionStatus(true);
-                  await _initializeScanner();
-                }
-              },
+               onPressed: () async {
+                 final permission = await Permission.camera.request();
+                 if (permission.isGranted) {
+                   context.read<ScanQrCubit>().setPermissionStatus(true);
+                 }
+               },
               icon: const Icon(Icons.camera_alt),
               label: const Text('Permitir Acesso'),
             ),
