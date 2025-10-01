@@ -19,6 +19,14 @@ import 'core/storage/domain/services/local_storage_service.dart';
 import 'core/storage/data/services/local_storage_service_impl.dart';
 import 'core/theme/data/services/theme_storage_service.dart';
 import 'core/navigation/presentation/cubit/navigation_cubit.dart';
+import 'features/scan_qr/data/repositories/scan_qr_repository_impl.dart';
+import 'features/scan_qr/domain/repositories/scan_qr_repository.dart';
+import 'features/scan_qr/domain/usecases/get_scanned_qr_codes.dart';
+import 'features/scan_qr/domain/usecases/save_scanned_qr_code.dart';
+import 'features/scan_qr/domain/usecases/validate_qr_security.dart';
+import 'features/scan_qr/data/services/qr_security_validator_impl.dart';
+import 'features/scan_qr/domain/services/qr_security_validator.dart';
+import 'features/scan_qr/presentation/cubit/scan_qr_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -93,6 +101,34 @@ Future<void> configureDependencies() async {
   getIt.registerLazySingleton<LoggerService>(
     () => LoggerService(
       logMessage: getIt<LogMessage>(),
+    ),
+  );
+
+  // Scan QR Dependencies
+  getIt.registerLazySingleton<ScanQrRepository>(
+    () => ScanQrRepositoryImpl(getIt<SharedPreferences>()),
+  );
+
+  getIt.registerLazySingleton<QrSecurityValidator>(
+    () => QrSecurityValidatorImpl(),
+  );
+
+  getIt.registerLazySingleton<GetScannedQrCodes>(
+    () => GetScannedQrCodes(getIt<ScanQrRepository>()),
+  );
+
+  getIt.registerLazySingleton<SaveScannedQrCode>(
+    () => SaveScannedQrCode(getIt<ScanQrRepository>()),
+  );
+
+  getIt.registerLazySingleton<ValidateQrSecurity>(
+    () => ValidateQrSecurity(getIt<QrSecurityValidator>()),
+  );
+
+  getIt.registerFactory<ScanQrCubit>(
+    () => ScanQrCubit(
+      validateQrSecurity: getIt<ValidateQrSecurity>(),
+      saveScannedQrCode: getIt<SaveScannedQrCode>(),
     ),
   );
 }

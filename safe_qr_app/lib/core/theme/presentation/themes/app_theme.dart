@@ -9,6 +9,15 @@ class AppTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: _primaryBlue,
       brightness: Brightness.light,
+    ).copyWith(
+      surface: const Color(0xFFF8F9FA),
+      surfaceContainer: const Color(0xFFE9ECEF),
+      surfaceContainerHigh: const Color(0xFFDEE2E6),
+      surfaceContainerHighest: const Color(0xFFD1D5DB),
+      onSurface: const Color(0xFF212529),
+      onSurfaceVariant: const Color(0xFF495057),
+      outline: const Color(0xFF6C757D),
+      shadow: Colors.black.withOpacity(0.1),
     );
 
     return ThemeData(
@@ -30,8 +39,9 @@ class AppTheme {
       ),
 
       cardTheme: CardThemeData(
-        elevation: 2,
-        shadowColor: colorScheme.shadow.withOpacity(0.1),
+        elevation: 3,
+        shadowColor: colorScheme.shadow.withOpacity(0.15),
+        color: const Color(0xFFE9ECEF), // Cor mais escura para melhor contraste
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
