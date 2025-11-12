@@ -4,6 +4,7 @@ import '../../../../core/theme/presentation/bloc/theme_bloc.dart';
 import '../../../../core/theme/presentation/bloc/theme_event.dart';
 import '../../../../core/theme/presentation/bloc/theme_state.dart';
 import '../../../../core/theme/domain/entities/theme_mode.dart';
+import '../../../../core/router/app_routes.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -91,6 +92,17 @@ class SettingsPage extends StatelessWidget {
                               const SnackBar(
                                 content: Text('Safe QR App v1.0.0'),
                               ),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.storage_outlined),
+                          title: const Text('Status do banco local'),
+                          subtitle: const Text('Verifique as chaves e valores armazenados'),
+                          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              AppRoutes.localDatabaseStatus,
                             );
                           },
                         ),

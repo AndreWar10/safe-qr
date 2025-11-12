@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:safe_qr_app/core/router/app_routes.dart';
 import 'package:safe_qr_app/core/navigation/presentation/components/app_shell.dart';
+import 'package:safe_qr_app/features/settings/presentation/pages/local_database_status_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.home:
         return MaterialPageRoute(builder: (_) => const AppShell());
+      case AppRoutes.localDatabaseStatus:
+        return MaterialPageRoute(builder: (_) => const LocalDatabaseStatusPage());
       // case AppRoutes.scanQr:
       //   return MaterialPageRoute(builder: (_) => const ScanPage());
       // case AppRoutes.scanResult:
