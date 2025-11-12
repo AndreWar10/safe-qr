@@ -7,6 +7,7 @@ import '../../../../features/scan_qr/presentation/pages/scan_qr_page.dart';
 import '../../../../features/generate_qr/presentation/pages/generate_qr_page.dart';
 import '../../../../features/history/presentation/pages/history_page.dart';
 import '../../../../features/settings/presentation/pages/settings_page.dart';
+import '../../../../features/history/presentation/cubit/history_cubit.dart';
 
 class AppShell extends StatelessWidget {
   const AppShell({super.key});
@@ -20,19 +21,26 @@ class AppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NavigationCubit, NavigationState>(
-      builder: (context, state) {
-        return Scaffold(
-          body: IndexedStack(
-            index: state.currentIndex,
-            children: _pages,
-          ),
-          bottomNavigationBar: AppBottomNavigationBar(
-            currentIndex: state.currentIndex,
-            onTap: (index) => context.read<NavigationCubit>().navigateToTab(index),
-          ),
-        );
+    return BlocListener<NavigationCubit, NavigationState>(
+      listenWhen: (previous, current) =>
+          previous.currentTab != current.currentTab && current.currentTab == NavigationTab.history,
+      listener: (context, state) {
+        context.read<HistoryCubit>().loadHistory();
       },
+      child: BlocBuilder<NavigationCubit, NavigationState>(
+        builder: (context, state) {
+          return Scaffold(
+            body: IndexedStack(
+              index: state.currentIndex,
+              children: _pages,
+            ),
+            bottomNavigationBar: AppBottomNavigationBar(
+              currentIndex: state.currentIndex,
+              onTap: (index) => context.read<NavigationCubit>().navigateToTab(index),
+            ),
+          );
+        },
+      ),
     );
   }
 }

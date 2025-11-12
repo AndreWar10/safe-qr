@@ -7,4 +7,5 @@ class AppRoutes {
   static const myQrCodes = '/my-qrcodes';
   static const dashboard = '/dashboard';
   static const lists = '/lists'; // whitelist/blacklist
+  static const localDatabaseStatus = '/settings/local-database-status';
 }
