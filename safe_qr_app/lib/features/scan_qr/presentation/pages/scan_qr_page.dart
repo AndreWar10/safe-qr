@@ -6,7 +6,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../cubit/scan_qr_cubit.dart';
 import '../../domain/entities/scan_state.dart';
-import '../../domain/entities/scanned_qr_data.dart';
 import '../widgets/scanner_overlay.dart';
 import '../widgets/scan_result_dialog.dart';
 

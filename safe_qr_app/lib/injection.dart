@@ -126,7 +126,12 @@ Future<void> configureDependencies() async {
     dispose: (client) => client.close(),
   );
 
-  final backendUrl = dotenv.env['SAFE_QR_API_URL'] ?? 'http://10.0.2.2:8080';
+  final backendUrl = dotenv.env['SAFE_QR_API_URL']?.trim();
+  if (backendUrl == null || backendUrl.isEmpty) {
+    throw Exception(
+      'SAFE_QR_API_URL não pode ser vazio. Verifique o arquivo assets/.env.',
+    );
+  }
 
   getIt.registerLazySingleton<QrSecurityValidator>(
     () => QrSecurityValidatorImpl(
