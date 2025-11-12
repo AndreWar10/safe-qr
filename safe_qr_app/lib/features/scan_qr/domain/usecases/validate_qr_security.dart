@@ -2,20 +2,24 @@ import '../entities/scanned_qr_data.dart';
 import '../services/qr_security_validator.dart';
 
 class ValidateQrSecurity {
-  final QrSecurityValidator _validator;
-
   ValidateQrSecurity(this._validator);
 
+  final QrSecurityValidator _validator;
+
   Future<ScannedQrData> call(String qrContent) async {
-    final securityLevel = await _validator.validateSecurity(qrContent);
-    final securityMessage = _validator.getSecurityMessage(securityLevel, qrContent);
-    
+    final report = await _validator.validateSecurity(qrContent);
+
     return ScannedQrData(
       content: qrContent,
-      securityLevel: securityLevel,
-      securityMessage: securityMessage,
+      securityLevel: report.level,
+      securityMessage: report.message,
       scannedAt: DateTime.now(),
       qrType: _detectQrType(qrContent),
+      verdict: report.verdict,
+      riskScore: report.riskScore,
+      indicators: report.indicators,
+      recommendations: report.recommendations,
+      isSafe: report.isSafe,
     );
   }
 
@@ -35,4 +39,3 @@ class ValidateQrSecurity {
     }
   }
 }
-

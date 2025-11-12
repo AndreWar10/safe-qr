@@ -23,7 +23,8 @@ class AppRouter {
       //   return MaterialPageRoute(builder: (_) => const ListsPage());
       default:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(body: Center(child: Text('Rota não encontrada'))),
+          builder: (_) =>
+              const Scaffold(body: Center(child: Text('Rota não encontrada'))),
         );
     }
   }

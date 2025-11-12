@@ -10,7 +10,8 @@ class LoggerService {
   }) : _logMessage = logMessage;
 
   /// Log de debug - para desenvolvimento
-  Future<void> debug(String message, {String? tag, Map<String, dynamic>? metadata}) async {
+  Future<void> debug(String message,
+      {String? tag, Map<String, dynamic>? metadata}) async {
     await _logMessage(
       level: LogLevel.debug,
       message: message,
@@ -20,7 +21,8 @@ class LoggerService {
   }
 
   /// Log de informação - eventos normais
-  Future<void> info(String message, {String? tag, Map<String, dynamic>? metadata}) async {
+  Future<void> info(String message,
+      {String? tag, Map<String, dynamic>? metadata}) async {
     await _logMessage(
       level: LogLevel.info,
       message: message,
@@ -30,7 +32,8 @@ class LoggerService {
   }
 
   /// Log de sucesso - operações bem-sucedidas
-  Future<void> success(String message, {String? tag, Map<String, dynamic>? metadata}) async {
+  Future<void> success(String message,
+      {String? tag, Map<String, dynamic>? metadata}) async {
     await _logMessage(
       level: LogLevel.success,
       message: message,
@@ -40,7 +43,8 @@ class LoggerService {
   }
 
   /// Log de warning - situações que merecem atenção
-  Future<void> warning(String message, {String? tag, Map<String, dynamic>? metadata}) async {
+  Future<void> warning(String message,
+      {String? tag, Map<String, dynamic>? metadata}) async {
     await _logMessage(
       level: LogLevel.warning,
       message: message,
@@ -50,7 +54,10 @@ class LoggerService {
   }
 
   /// Log de erro - erros que não quebram a aplicação
-  Future<void> error(String message, {String? tag, Map<String, dynamic>? metadata, StackTrace? stackTrace}) async {
+  Future<void> error(String message,
+      {String? tag,
+      Map<String, dynamic>? metadata,
+      StackTrace? stackTrace}) async {
     await _logMessage(
       level: LogLevel.error,
       message: message,
@@ -61,7 +68,8 @@ class LoggerService {
   }
 
   /// Log de erro com exceção
-  Future<void> errorWithException(String message, dynamic exception, {String? tag}) async {
+  Future<void> errorWithException(String message, dynamic exception,
+      {String? tag}) async {
     await error(
       message,
       tag: tag,

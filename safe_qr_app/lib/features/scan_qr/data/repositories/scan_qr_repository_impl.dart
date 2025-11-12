@@ -16,9 +16,7 @@ class ScanQrRepositoryImpl implements ScanQrRepository {
 
     try {
       final List<dynamic> jsonList = jsonDecode(jsonString);
-      return jsonList
-          .map((json) => ScannedQrData.fromJson(json))
-          .toList();
+      return jsonList.map((json) => ScannedQrData.fromJson(json)).toList();
     } catch (e) {
       return [];
     }
@@ -28,7 +26,7 @@ class ScanQrRepositoryImpl implements ScanQrRepository {
   Future<void> saveScannedQrCode(ScannedQrData qrData) async {
     final existingCodes = await getScannedQrCodes();
     existingCodes.add(qrData);
-    
+
     final jsonList = existingCodes.map((code) => code.toJson()).toList();
     await _prefs.setString(_scannedQrCodesKey, jsonEncode(jsonList));
   }
@@ -37,7 +35,7 @@ class ScanQrRepositoryImpl implements ScanQrRepository {
   Future<void> deleteScannedQrCode(String id) async {
     final existingCodes = await getScannedQrCodes();
     existingCodes.removeWhere((code) => code.content == id);
-    
+
     final jsonList = existingCodes.map((code) => code.toJson()).toList();
     await _prefs.setString(_scannedQrCodesKey, jsonEncode(jsonList));
   }
@@ -47,4 +45,3 @@ class ScanQrRepositoryImpl implements ScanQrRepository {
     await _prefs.remove(_scannedQrCodesKey);
   }
 }
-

@@ -52,9 +52,9 @@ class QrSuccessWidget extends StatelessWidget {
                       size: 32,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 12),
-                  
+
                   // Texto de sucesso
                   Text(
                     'QR Code gerado com sucesso!',
@@ -64,9 +64,9 @@ class QrSuccessWidget extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  
+
                   const SizedBox(height: 8),
-                  
+
                   Text(
                     'Você pode compartilhar ou salvar o código gerado',
                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -77,57 +77,57 @@ class QrSuccessWidget extends StatelessWidget {
                 ],
               ),
             ),
-          
-          const SizedBox(height: 16),
-          
-          // Botões de ação lado a lado
-          Row(
-            children: [
-              // Botão de salvar
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: onSave,
-                  icon: const Icon(Icons.download),
-                  label: const Text('Salvar'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: colorScheme.secondary,
-                    side: BorderSide(color: colorScheme.secondary),
+
+            const SizedBox(height: 16),
+
+            // Botões de ação lado a lado
+            Row(
+              children: [
+                // Botão de salvar
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: onSave,
+                    icon: const Icon(Icons.download),
+                    label: const Text('Salvar'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: colorScheme.secondary,
+                      side: BorderSide(color: colorScheme.secondary),
+                    ),
                   ),
                 ),
-              ),
-              
-              const SizedBox(width: 12),
-              
-              // Botão de compartilhar
-              Expanded(
-                child: FilledButton.icon(
-                  onPressed: onShare,
-                  icon: const Icon(Icons.share),
-                  label: const Text('Compartilhar'),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: colorScheme.primary,
-                    foregroundColor: colorScheme.onPrimary,
+
+                const SizedBox(width: 12),
+
+                // Botão de compartilhar
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: onShare,
+                    icon: const Icon(Icons.share),
+                    label: const Text('Compartilhar'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Botão para criar novo
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: onNew,
-              icon: const Icon(Icons.add),
-              label: const Text('Criar Novo QR Code'),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: colorScheme.primary,
-                side: BorderSide(color: colorScheme.primary),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            // Botão para criar novo
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: onNew,
+                icon: const Icon(Icons.add),
+                label: const Text('Criar Novo QR Code'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: colorScheme.primary,
+                  side: BorderSide(color: colorScheme.primary),
+                ),
               ),
             ),
-          ),
           ],
         ),
       ),

@@ -10,4 +10,3 @@ class SaveScannedQrCode {
     await _repository.saveScannedQrCode(qrData);
   }
 }
-

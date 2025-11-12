@@ -38,4 +38,3 @@ class QrGeneratorError extends QrGeneratorState {
 class QrGeneratorReset extends QrGeneratorState {
   const QrGeneratorReset();
 }
-

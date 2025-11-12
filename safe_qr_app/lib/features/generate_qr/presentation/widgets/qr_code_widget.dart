@@ -27,59 +27,54 @@ class QrCodeWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-          if (qrData.title != null) ...[
-            Text(
-              qrData.title!,
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: colorScheme.onSurface,
-                fontWeight: FontWeight.w600,
+            if (qrData.title != null) ...[
+              Text(
+                qrData.title!,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: colorScheme.onSurface,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
+              const SizedBox(height: 8),
+            ],
+            QrImageView(
+              data: qrData.content,
+              version: QrVersions.auto,
+              size: size,
+              gapless: false,
+              backgroundColor: backgroundColor ?? Colors.white,
+              eyeStyle: const QrEyeStyle(
+                eyeShape: QrEyeShape.square,
+                color: Colors.black,
+              ),
+              dataModuleStyle: const QrDataModuleStyle(
+                dataModuleShape: QrDataModuleShape.square,
+                color: Colors.black,
+              ),
+              embeddedImage: null,
+              embeddedImageStyle: const QrEmbeddedImageStyle(
+                size: Size(40, 40),
+              ),
             ),
             const SizedBox(height: 8),
+            Text(
+              qrData.type.displayName,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              _formatContent(qrData.content),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
-          
-          QrImageView(
-            data: qrData.content,
-            version: QrVersions.auto,
-            size: size,
-            gapless: false,
-            backgroundColor: backgroundColor ?? Colors.white,
-            eyeStyle: const QrEyeStyle(
-              eyeShape: QrEyeShape.square,
-              color: Colors.black,
-            ),
-            dataModuleStyle: const QrDataModuleStyle(
-              dataModuleShape: QrDataModuleShape.square,
-              color: Colors.black,
-            ),
-            embeddedImage: null,
-            embeddedImageStyle: const QrEmbeddedImageStyle(
-              size: Size(40, 40),
-            ),
-          ),
-          
-          const SizedBox(height: 8),
-          
-          Text(
-            qrData.type.displayName,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-            ),
-          ),
-          
-          const SizedBox(height: 4),
-          
-          Text(
-            _formatContent(qrData.content),
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
         ),
       ),
     );

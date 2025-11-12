@@ -56,9 +56,12 @@ class HistoryItemCard extends StatelessWidget {
                         if (item.title != null) ...[
                           Text(
                             item.title!,
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -68,25 +71,31 @@ class HistoryItemCard extends StatelessWidget {
                           item.type == QrHistoryType.generated
                               ? 'QR Code Gerado'
                               : 'QR Code Escaneado',
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.labelMedium?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
                         ),
                       ],
                     ),
                   ),
                   if (item.qrType != null) ...[
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         item.qrType!,
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                     ),
                   ],
@@ -111,8 +120,8 @@ class HistoryItemCard extends StatelessWidget {
                   Text(
                     _formatDateTime(item.createdAt),
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                   ),
                   const Spacer(),
                   if (item.securityLevel != null) ...[
@@ -125,9 +134,10 @@ class HistoryItemCard extends StatelessWidget {
                     Text(
                       _getSecurityText(item.securityLevel!),
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: _getSecurityColor(context, item.securityLevel!),
-                        fontWeight: FontWeight.w500,
-                      ),
+                            color:
+                                _getSecurityColor(context, item.securityLevel!),
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                     const SizedBox(width: 16),
                   ],

@@ -6,4 +6,3 @@ abstract class ScanQrRepository {
   Future<void> deleteScannedQrCode(String id);
   Future<void> clearScannedQrCodes();
 }
-

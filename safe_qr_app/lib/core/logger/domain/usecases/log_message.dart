@@ -32,6 +32,6 @@ class LogMessage {
   /// Gera ID único para o log
   String _generateId() {
     return DateTime.now().millisecondsSinceEpoch.toString() +
-           (DateTime.now().microsecond.toString().padLeft(6, '0'));
+        (DateTime.now().microsecond.toString().padLeft(6, '0'));
   }
 }

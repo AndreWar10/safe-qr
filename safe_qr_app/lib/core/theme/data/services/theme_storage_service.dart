@@ -9,9 +9,9 @@ class ThemeStorageService {
 
   Future<AppThemeMode> getThemeMode() async {
     final themeString = await _storage.get<String>(LocalStorageKeys.themeMode);
-    return themeString != null 
-      ? AppThemeMode.fromString(themeString)
-      : AppThemeMode.dark;
+    return themeString != null
+        ? AppThemeMode.fromString(themeString)
+        : AppThemeMode.dark;
   }
 
   Future<void> setThemeMode(AppThemeMode mode) async {

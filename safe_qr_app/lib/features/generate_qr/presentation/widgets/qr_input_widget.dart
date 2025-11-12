@@ -60,15 +60,21 @@ class _QrInputWidgetState extends State<QrInputWidget> {
   bool _isFormValid() {
     switch (_selectedType) {
       case QrCodeType.email:
-        return _content.contains('mailto:') && _content.split('mailto:')[1].isNotEmpty;
+        return _content.contains('mailto:') &&
+            _content.split('mailto:')[1].isNotEmpty;
       case QrCodeType.phone:
-        return _content.contains('tel:') && _content.split('tel:')[1].isNotEmpty;
+        return _content.contains('tel:') &&
+            _content.split('tel:')[1].isNotEmpty;
       case QrCodeType.url:
-        return _content.isNotEmpty && (_content.startsWith('http://') || _content.startsWith('https://'));
+        return _content.isNotEmpty &&
+            (_content.startsWith('http://') || _content.startsWith('https://'));
       case QrCodeType.wifi:
-        return _content.contains('WIFI:') && _content.contains('S:') && _content.split('S:')[1].split(';')[0].isNotEmpty;
+        return _content.contains('WIFI:') &&
+            _content.contains('S:') &&
+            _content.split('S:')[1].split(';')[0].isNotEmpty;
       case QrCodeType.sms:
-        return _content.contains('sms:') && _content.split('sms:')[1].split(':')[0].isNotEmpty;
+        return _content.contains('sms:') &&
+            _content.split('sms:')[1].split(':')[0].isNotEmpty;
       default:
         return _content.isNotEmpty;
     }
@@ -119,7 +125,7 @@ class _QrInputWidgetState extends State<QrInputWidget> {
               ),
             ),
             const SizedBox(height: 8),
-            
+
             Wrap(
               spacing: 8,
               children: QrCodeType.values.map((type) {
@@ -140,7 +146,7 @@ class _QrInputWidgetState extends State<QrInputWidget> {
                 );
               }).toList(),
             ),
-            
+
             const SizedBox(height: 16),
 
             // Campos específicos por tipo
@@ -158,14 +164,16 @@ class _QrInputWidgetState extends State<QrInputWidget> {
                 });
               },
             ),
-            
+
             const SizedBox(height: 20),
 
             // Botão de gerar
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
-                onPressed: (widget.isLoading || !_isFormValid()) ? null : _generateQrCode,
+                onPressed: (widget.isLoading || !_isFormValid())
+                    ? null
+                    : _generateQrCode,
                 icon: widget.isLoading
                     ? const SizedBox(
                         width: 16,

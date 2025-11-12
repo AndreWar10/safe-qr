@@ -24,7 +24,6 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
       brightness: Brightness.light,
-      
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,
@@ -37,7 +36,6 @@ class AppTheme {
           color: colorScheme.onSurface,
         ),
       ),
-
       cardTheme: CardThemeData(
         elevation: 3,
         shadowColor: colorScheme.shadow.withOpacity(0.15),
@@ -46,7 +44,6 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
-
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 2,
@@ -56,7 +53,6 @@ class AppTheme {
           ),
         ),
       ),
-
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -65,7 +61,6 @@ class AppTheme {
           ),
         ),
       ),
-
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -74,7 +69,6 @@ class AppTheme {
           ),
         ),
       ),
-
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -83,7 +77,6 @@ class AppTheme {
           ),
         ),
       ),
-
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colorScheme.surfaceContainerHighest,
@@ -103,16 +96,15 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: colorScheme.error),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
-
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
       ),
-
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         elevation: 8,
         backgroundColor: colorScheme.surface,
@@ -120,7 +112,6 @@ class AppTheme {
         unselectedItemColor: colorScheme.onSurfaceVariant,
         type: BottomNavigationBarType.fixed,
       ),
-
       chipTheme: ChipThemeData(
         backgroundColor: colorScheme.surfaceContainerHighest,
         selectedColor: colorScheme.secondaryContainer,
@@ -129,7 +120,6 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
@@ -144,7 +134,6 @@ class AppTheme {
           return colorScheme.surfaceContainerHighest;
         }),
       ),
-
       dividerTheme: DividerThemeData(
         color: colorScheme.outline.withOpacity(0.2),
         thickness: 1,
@@ -175,7 +164,6 @@ class AppTheme {
       colorScheme: colorScheme,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color(0xFF0A0A0A),
-      
       appBarTheme: const AppBarTheme(
         centerTitle: true,
         elevation: 0,
@@ -188,7 +176,6 @@ class AppTheme {
           color: Colors.white,
         ),
       ),
-
       cardTheme: CardThemeData(
         elevation: 4,
         shadowColor: Colors.black.withOpacity(0.8),
@@ -197,7 +184,6 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
-
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 2,
@@ -207,7 +193,6 @@ class AppTheme {
           ),
         ),
       ),
-
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -216,7 +201,6 @@ class AppTheme {
           ),
         ),
       ),
-
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -225,7 +209,6 @@ class AppTheme {
           ),
         ),
       ),
-
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -234,7 +217,6 @@ class AppTheme {
           ),
         ),
       ),
-
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: const Color(0xFF242424),
@@ -254,16 +236,15 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: Color(0xFFCF6679)),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
-
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
       ),
-
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         elevation: 8,
         backgroundColor: Color(0xFF121212),
@@ -271,7 +252,6 @@ class AppTheme {
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
       ),
-
       chipTheme: ChipThemeData(
         backgroundColor: const Color(0xFF242424),
         selectedColor: colorScheme.secondaryContainer,
@@ -280,7 +260,6 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
@@ -295,7 +274,6 @@ class AppTheme {
           return const Color(0xFF242424);
         }),
       ),
-
       dividerTheme: DividerThemeData(
         color: Colors.grey.shade800,
         thickness: 1,

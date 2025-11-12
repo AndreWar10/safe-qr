@@ -25,12 +25,12 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     Emitter<ThemeState> emit,
   ) async {
     emit(const ThemeLoading());
-    
+
     try {
       await AppLogger.info('Carregando tema da aplicação...', tag: 'THEME');
       final theme = await _getTheme();
       emit(ThemeLoaded(theme));
-      
+
       await AppLogger.success(
         'Tema carregado com sucesso',
         tag: 'THEME',
@@ -40,7 +40,8 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         },
       );
     } catch (e) {
-      await AppLogger.errorWithException('Erro ao carregar tema', e, tag: 'THEME');
+      await AppLogger.errorWithException('Erro ao carregar tema', e,
+          tag: 'THEME');
       emit(ThemeError(e.toString()));
     }
   }
@@ -57,11 +58,11 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
           'newMode': event.mode.name,
         },
       );
-      
+
       final newTheme = ThemeEntity(mode: event.mode);
       await _saveTheme(newTheme);
       emit(ThemeLoaded(newTheme));
-      
+
       await AppLogger.success(
         'Tema alterado com sucesso',
         tag: 'THEME',
@@ -71,7 +72,8 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         },
       );
     } catch (e) {
-      await AppLogger.errorWithException('Erro ao alterar tema', e, tag: 'THEME');
+      await AppLogger.errorWithException('Erro ao alterar tema', e,
+          tag: 'THEME');
       emit(ThemeError(e.toString()));
     }
   }

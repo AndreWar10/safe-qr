@@ -24,8 +24,9 @@ class HistoryRepositoryImpl implements HistoryRepository {
       final items = jsonList
           .map((json) => QrHistoryItem.fromJson(json))
           .toList()
-        ..sort((a, b) => b.createdAt.compareTo(a.createdAt)); // Mais recentes primeiro
-      
+        ..sort((a, b) =>
+            b.createdAt.compareTo(a.createdAt)); // Mais recentes primeiro
+
       print('📝 Histórico carregado: ${items.length} itens');
       return items;
     } catch (e) {
@@ -53,22 +54,22 @@ class HistoryRepositoryImpl implements HistoryRepository {
   @override
   Future<void> saveHistoryItem(QrHistoryItem item) async {
     final existingHistory = await getHistory();
-    
+
     // Remove item existente se já existe (para atualizar)
     existingHistory.removeWhere((existing) => existing.id == item.id);
-    
+
     // Adiciona o novo item
     existingHistory.add(item);
-    
+
     // Mantém apenas os últimos 100 itens para não ocupar muito espaço
     if (existingHistory.length > 100) {
       existingHistory.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       existingHistory.removeRange(100, existingHistory.length);
     }
-    
+
     final jsonList = existingHistory.map((item) => item.toJson()).toList();
     await _prefs.setString(_historyKey, jsonEncode(jsonList));
-    
+
     // Log para debug
     print('✅ Histórico salvo: ${item.type.name} - ${item.content}');
   }
@@ -77,7 +78,7 @@ class HistoryRepositoryImpl implements HistoryRepository {
   Future<void> deleteHistoryItem(String id) async {
     final existingHistory = await getHistory();
     existingHistory.removeWhere((item) => item.id == id);
-    
+
     final jsonList = existingHistory.map((item) => item.toJson()).toList();
     await _prefs.setString(_historyKey, jsonEncode(jsonList));
   }
@@ -93,7 +94,7 @@ class HistoryRepositoryImpl implements HistoryRepository {
     final filteredHistory = existingHistory
         .where((item) => item.type != QrHistoryType.generated)
         .toList();
-    
+
     final jsonList = filteredHistory.map((item) => item.toJson()).toList();
     await _prefs.setString(_historyKey, jsonEncode(jsonList));
   }
@@ -104,7 +105,7 @@ class HistoryRepositoryImpl implements HistoryRepository {
     final filteredHistory = existingHistory
         .where((item) => item.type != QrHistoryType.scanned)
         .toList();
-    
+
     final jsonList = filteredHistory.map((item) => item.toJson()).toList();
     await _prefs.setString(_historyKey, jsonEncode(jsonList));
   }

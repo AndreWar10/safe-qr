@@ -35,8 +35,8 @@ class HistoryState extends Equatable {
   const HistoryState.loaded({
     required this.generatedHistory,
     required this.scannedHistory,
-  }) : isLoading = false,
-       errorMessage = null;
+  })  : isLoading = false,
+        errorMessage = null;
 
   const HistoryState.error(String message)
       : generatedHistory = const [],
@@ -45,7 +45,8 @@ class HistoryState extends Equatable {
         errorMessage = message;
 
   @override
-  List<Object?> get props => [generatedHistory, scannedHistory, isLoading, errorMessage];
+  List<Object?> get props =>
+      [generatedHistory, scannedHistory, isLoading, errorMessage];
 
   HistoryState copyWith({
     List<QrHistoryItem>? generatedHistory,
@@ -84,11 +85,11 @@ class HistoryCubit extends Cubit<HistoryState> {
 
   Future<void> loadHistory() async {
     emit(const HistoryState.loading());
-    
+
     try {
       final generatedHistory = await _getGeneratedHistory();
       final scannedHistory = await _getScannedHistory();
-      
+
       emit(HistoryState.loaded(
         generatedHistory: generatedHistory,
         scannedHistory: scannedHistory,

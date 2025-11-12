@@ -70,8 +70,8 @@ class HistoryListView extends StatelessWidget {
             Text(
               emptyMessage,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
@@ -93,16 +93,16 @@ class HistoryListView extends StatelessWidget {
         title: Row(
           children: [
             Icon(
-              item.type == QrHistoryType.generated 
-                  ? Icons.qr_code 
+              item.type == QrHistoryType.generated
+                  ? Icons.qr_code
                   : Icons.qr_code_scanner,
               color: Theme.of(context).colorScheme.primary,
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                item.type == QrHistoryType.generated 
-                    ? 'QR Code Gerado' 
+                item.type == QrHistoryType.generated
+                    ? 'QR Code Gerado'
                     : 'QR Code Escaneado',
               ),
             ),
@@ -116,8 +116,8 @@ class HistoryListView extends StatelessWidget {
               Text(
                 'Título:',
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
               const SizedBox(height: 4),
               Text(item.title!),
@@ -133,9 +133,9 @@ class HistoryListView extends StatelessWidget {
                 child: Text(
                   item.qrType!,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    fontWeight: FontWeight.w600,
-                  ),
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -143,8 +143,8 @@ class HistoryListView extends StatelessWidget {
             Text(
               'Conteúdo:',
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
             const SizedBox(height: 8),
             Container(
@@ -154,7 +154,10 @@ class HistoryListView extends StatelessWidget {
                 color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .outline
+                      .withValues(alpha: 0.3),
                 ),
               ),
               child: Text(
@@ -166,8 +169,8 @@ class HistoryListView extends StatelessWidget {
             Text(
               'Data:',
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
             const SizedBox(height: 4),
             Text(
@@ -180,10 +183,12 @@ class HistoryListView extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: _getSecurityColor(context, item.securityLevel!).withValues(alpha: 0.1),
+                  color: _getSecurityColor(context, item.securityLevel!)
+                      .withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: _getSecurityColor(context, item.securityLevel!).withValues(alpha: 0.3),
+                    color: _getSecurityColor(context, item.securityLevel!)
+                        .withValues(alpha: 0.3),
                   ),
                 ),
                 child: Row(
@@ -196,11 +201,13 @@ class HistoryListView extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        item.securityMessage ?? 'Status de segurança não disponível',
+                        item.securityMessage ??
+                            'Status de segurança não disponível',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: _getSecurityColor(context, item.securityLevel!),
-                          fontWeight: FontWeight.w500,
-                        ),
+                              color: _getSecurityColor(
+                                  context, item.securityLevel!),
+                              fontWeight: FontWeight.w500,
+                            ),
                       ),
                     ),
                   ],

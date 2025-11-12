@@ -18,7 +18,7 @@ class SettingsPage extends StatelessWidget {
       body: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           final isDarkMode = state is ThemeLoaded ? state.theme.isDark : true;
-          
+
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -41,7 +41,9 @@ class SettingsPage extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(
-                                  isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                                  isDarkMode
+                                      ? Icons.dark_mode
+                                      : Icons.light_mode,
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                                 const SizedBox(width: 12),
@@ -54,8 +56,12 @@ class SettingsPage extends StatelessWidget {
                             Switch(
                               value: isDarkMode,
                               onChanged: (value) {
-                                final newMode = value ? AppThemeMode.dark : AppThemeMode.light;
-                                context.read<ThemeBloc>().add(ThemeModeChanged(newMode));
+                                final newMode = value
+                                    ? AppThemeMode.dark
+                                    : AppThemeMode.light;
+                                context
+                                    .read<ThemeBloc>()
+                                    .add(ThemeModeChanged(newMode));
                               },
                             ),
                           ],

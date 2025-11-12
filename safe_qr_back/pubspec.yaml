@@ -1,0 +1,20 @@
+name: safe_qr_back
+description: Backend service for Safe QR that evaluates scanned QR codes.
+version: 0.1.0
+publish_to: "none"
+
+environment:
+  sdk: ^3.3.0
+
+dependencies:
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  logging: ^1.2.0
+  dotenv: ^4.2.0
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.25.0
+
+executables:
+  safe_qr_back: bin/server.dart

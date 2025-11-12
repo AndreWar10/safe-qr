@@ -1,0 +1,17 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  exclude:
+    - build/**
+  language:
+    strict-inference: true
+    strict-raw-types: true
+    enable-null-aware-operators: true
+
+linter:
+  rules:
+    prefer_const_constructors: true
+    cancel_subscriptions: true
+    close_sinks: true
+    avoid_print: true
+    sort_pub_dependencies: true

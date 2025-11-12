@@ -105,7 +105,8 @@ class QrScannerOverlayShape extends ShapeBorder {
       return Path()
         ..moveTo(rect.left, rect.bottom)
         ..lineTo(rect.left, rect.top + borderRadius)
-        ..quadraticBezierTo(rect.left, rect.top, rect.left + borderRadius, rect.top)
+        ..quadraticBezierTo(
+            rect.left, rect.top, rect.left + borderRadius, rect.top)
         ..lineTo(rect.right, rect.top);
     }
 
@@ -120,8 +121,10 @@ class QrScannerOverlayShape extends ShapeBorder {
     final width = rect.width;
     final height = rect.height;
     final borderOffset = borderWidth / 2;
-    final cutOutWidth = this.cutOutWidth < width ? this.cutOutWidth : width - borderOffset;
-    final cutOutHeight = this.cutOutHeight < height ? this.cutOutHeight : height - borderOffset;
+    final cutOutWidth =
+        this.cutOutWidth < width ? this.cutOutWidth : width - borderOffset;
+    final cutOutHeight =
+        this.cutOutHeight < height ? this.cutOutHeight : height - borderOffset;
 
     final backgroundPaint = Paint()
       ..color = overlayColor
@@ -158,8 +161,11 @@ class QrScannerOverlayShape extends ShapeBorder {
     final path = Path()
       ..moveTo(cutOutRect.left - borderOffset, cutOutRect.top + borderLength)
       ..lineTo(cutOutRect.left - borderOffset, cutOutRect.top + borderRadius)
-      ..quadraticBezierTo(cutOutRect.left - borderOffset, cutOutRect.top - borderOffset,
-          cutOutRect.left + borderRadius, cutOutRect.top - borderOffset)
+      ..quadraticBezierTo(
+          cutOutRect.left - borderOffset,
+          cutOutRect.top - borderOffset,
+          cutOutRect.left + borderRadius,
+          cutOutRect.top - borderOffset)
       ..lineTo(cutOutRect.left + borderLength, cutOutRect.top - borderOffset);
 
     canvas.drawPath(path, borderPaint);
@@ -167,8 +173,11 @@ class QrScannerOverlayShape extends ShapeBorder {
     final path2 = Path()
       ..moveTo(cutOutRect.right + borderOffset, cutOutRect.top + borderLength)
       ..lineTo(cutOutRect.right + borderOffset, cutOutRect.top + borderRadius)
-      ..quadraticBezierTo(cutOutRect.right + borderOffset, cutOutRect.top - borderOffset,
-          cutOutRect.right - borderRadius, cutOutRect.top - borderOffset)
+      ..quadraticBezierTo(
+          cutOutRect.right + borderOffset,
+          cutOutRect.top - borderOffset,
+          cutOutRect.right - borderRadius,
+          cutOutRect.top - borderOffset)
       ..lineTo(cutOutRect.right - borderLength, cutOutRect.top - borderOffset);
 
     canvas.drawPath(path2, borderPaint);
@@ -176,18 +185,28 @@ class QrScannerOverlayShape extends ShapeBorder {
     final path3 = Path()
       ..moveTo(cutOutRect.left - borderOffset, cutOutRect.bottom - borderLength)
       ..lineTo(cutOutRect.left - borderOffset, cutOutRect.bottom - borderRadius)
-      ..quadraticBezierTo(cutOutRect.left - borderOffset, cutOutRect.bottom + borderOffset,
-          cutOutRect.left + borderRadius, cutOutRect.bottom + borderOffset)
-      ..lineTo(cutOutRect.left + borderLength, cutOutRect.bottom + borderOffset);
+      ..quadraticBezierTo(
+          cutOutRect.left - borderOffset,
+          cutOutRect.bottom + borderOffset,
+          cutOutRect.left + borderRadius,
+          cutOutRect.bottom + borderOffset)
+      ..lineTo(
+          cutOutRect.left + borderLength, cutOutRect.bottom + borderOffset);
 
     canvas.drawPath(path3, borderPaint);
 
     final path4 = Path()
-      ..moveTo(cutOutRect.right + borderOffset, cutOutRect.bottom - borderLength)
-      ..lineTo(cutOutRect.right + borderOffset, cutOutRect.bottom - borderRadius)
-      ..quadraticBezierTo(cutOutRect.right + borderOffset, cutOutRect.bottom + borderOffset,
-          cutOutRect.right - borderRadius, cutOutRect.bottom + borderOffset)
-      ..lineTo(cutOutRect.right - borderLength, cutOutRect.bottom + borderOffset);
+      ..moveTo(
+          cutOutRect.right + borderOffset, cutOutRect.bottom - borderLength)
+      ..lineTo(
+          cutOutRect.right + borderOffset, cutOutRect.bottom - borderRadius)
+      ..quadraticBezierTo(
+          cutOutRect.right + borderOffset,
+          cutOutRect.bottom + borderOffset,
+          cutOutRect.right - borderRadius,
+          cutOutRect.bottom + borderOffset)
+      ..lineTo(
+          cutOutRect.right - borderLength, cutOutRect.bottom + borderOffset);
 
     canvas.drawPath(path4, borderPaint);
   }
@@ -201,4 +220,3 @@ class QrScannerOverlayShape extends ShapeBorder {
     );
   }
 }
-

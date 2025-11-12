@@ -14,6 +14,11 @@ class ScannedQrData extends Equatable {
   final String? securityMessage;
   final DateTime scannedAt;
   final String? qrType;
+  final String? verdict;
+  final int? riskScore;
+  final List<String> indicators;
+  final List<String> recommendations;
+  final bool? isSafe;
 
   const ScannedQrData({
     required this.content,
@@ -22,6 +27,11 @@ class ScannedQrData extends Equatable {
     this.securityMessage,
     required this.scannedAt,
     this.qrType,
+    this.verdict,
+    this.riskScore,
+    this.indicators = const [],
+    this.recommendations = const [],
+    this.isSafe,
   });
 
   @override
@@ -32,6 +42,11 @@ class ScannedQrData extends Equatable {
         securityMessage,
         scannedAt,
         qrType,
+        verdict,
+        riskScore,
+        indicators,
+        recommendations,
+        isSafe,
       ];
 
   ScannedQrData copyWith({
@@ -41,6 +56,11 @@ class ScannedQrData extends Equatable {
     String? securityMessage,
     DateTime? scannedAt,
     String? qrType,
+    String? verdict,
+    int? riskScore,
+    List<String>? indicators,
+    List<String>? recommendations,
+    bool? isSafe,
   }) {
     return ScannedQrData(
       content: content ?? this.content,
@@ -49,6 +69,11 @@ class ScannedQrData extends Equatable {
       securityMessage: securityMessage ?? this.securityMessage,
       scannedAt: scannedAt ?? this.scannedAt,
       qrType: qrType ?? this.qrType,
+      verdict: verdict ?? this.verdict,
+      riskScore: riskScore ?? this.riskScore,
+      indicators: indicators ?? this.indicators,
+      recommendations: recommendations ?? this.recommendations,
+      isSafe: isSafe ?? this.isSafe,
     );
   }
 
@@ -60,6 +85,11 @@ class ScannedQrData extends Equatable {
       'securityMessage': securityMessage,
       'scannedAt': scannedAt.toIso8601String(),
       'qrType': qrType,
+      'verdict': verdict,
+      'riskScore': riskScore,
+      'indicators': indicators,
+      'recommendations': recommendations,
+      'isSafe': isSafe,
     };
   }
 
@@ -74,6 +104,17 @@ class ScannedQrData extends Equatable {
       securityMessage: json['securityMessage'] as String?,
       scannedAt: DateTime.parse(json['scannedAt'] as String),
       qrType: json['qrType'] as String?,
+      verdict: json['verdict'] as String?,
+      riskScore: json['riskScore'] as int?,
+      indicators: (json['indicators'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList(growable: false) ??
+          const [],
+      recommendations: (json['recommendations'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList(growable: false) ??
+          const [],
+      isSafe: json['isSafe'] as bool?,
     );
   }
 }

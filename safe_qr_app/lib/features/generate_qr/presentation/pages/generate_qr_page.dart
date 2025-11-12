@@ -13,7 +13,8 @@ class GenerateQrPage extends StatefulWidget {
   State<GenerateQrPage> createState() => _GenerateQrPageState();
 }
 
-class _GenerateQrPageState extends State<GenerateQrPage> with WidgetsBindingObserver {
+class _GenerateQrPageState extends State<GenerateQrPage>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -30,7 +31,8 @@ class _GenerateQrPageState extends State<GenerateQrPage> with WidgetsBindingObse
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // Limpa recursos quando app vai para background
-    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
       context.read<QrGeneratorCubit>().clearResources();
     }
   }
@@ -44,93 +46,97 @@ class _GenerateQrPageState extends State<GenerateQrPage> with WidgetsBindingObse
       body: BlocBuilder<QrGeneratorCubit, QrGeneratorState>(
         builder: (context, state) {
           return SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Gerador de QR Code',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Gerador de QR Code',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
+                const SizedBox(height: 24),
 
-                  // Widget de input ou sucesso
-                  BlocBuilder<QrGeneratorCubit, QrGeneratorState>(
-                    builder: (context, state) {
-                      if (state is QrGeneratorSuccess) {
-                        return QrSuccessWidget(
-                          onNew: () {
-                            context.read<QrGeneratorCubit>().clearQrCode();
-                          },
-                          onSave: () {
-                            context.read<QrGeneratorCubit>().saveQrCode();
-                          },
-                          onShare: () {
-                            context.read<QrGeneratorCubit>().shareQrCode();
-                          },
-                        );
-                      }
-                      
-                      return QrInputWidget(
-                        onGenerate: (content, title, type) {
-                          context.read<QrGeneratorCubit>().generateQrCode(
-                            content,
-                            title: title,
-                            type: type,
-                          );
+                // Widget de input ou sucesso
+                BlocBuilder<QrGeneratorCubit, QrGeneratorState>(
+                  builder: (context, state) {
+                    if (state is QrGeneratorSuccess) {
+                      return QrSuccessWidget(
+                        onNew: () {
+                          context.read<QrGeneratorCubit>().clearQrCode();
                         },
-                        isLoading: state is QrGeneratorLoading,
-                        shouldReset: state is QrGeneratorReset,
+                        onSave: () {
+                          context.read<QrGeneratorCubit>().saveQrCode();
+                        },
+                        onShare: () {
+                          context.read<QrGeneratorCubit>().shareQrCode();
+                        },
                       );
-                    },
-                  ),
+                    }
 
-                  const SizedBox(height: 16),
+                    return QrInputWidget(
+                      onGenerate: (content, title, type) {
+                        context.read<QrGeneratorCubit>().generateQrCode(
+                              content,
+                              title: title,
+                              type: type,
+                            );
+                      },
+                      isLoading: state is QrGeneratorLoading,
+                      shouldReset: state is QrGeneratorReset,
+                    );
+                  },
+                ),
 
-                  // Widget do QR Code gerado (apenas quando há sucesso)
-                  BlocBuilder<QrGeneratorCubit, QrGeneratorState>(
-                    builder: (context, state) {
-                      if (state is QrGeneratorSuccess) {
-                        return QrCodeWidget(
-                          qrData: state.qrCodeData,
-                          size: 250.0,
-                        );
-                      } else if (state is QrGeneratorError) {
-                        return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.error_outline,
-                                  color: Theme.of(context).colorScheme.error,
-                                  size: 48,
-                                ),
-                                const SizedBox(height: 16),
-                                Text(
-                                  state.message,
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).colorScheme.error,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
+                const SizedBox(height: 16),
+
+                // Widget do QR Code gerado (apenas quando há sucesso)
+                BlocBuilder<QrGeneratorCubit, QrGeneratorState>(
+                  builder: (context, state) {
+                    if (state is QrGeneratorSuccess) {
+                      return QrCodeWidget(
+                        qrData: state.qrCodeData,
+                        size: 250.0,
+                      );
+                    } else if (state is QrGeneratorError) {
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.error_outline,
+                                color: Theme.of(context).colorScheme.error,
+                                size: 48,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                state.message,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.error,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
 
-              const SizedBox(height: 16),
-            ],
-          ),
-        );
+                const SizedBox(height: 16),
+              ],
+            ),
+          );
         },
       ),
     );

@@ -58,7 +58,7 @@ class _QrTypeFieldsWidgetState extends State<QrTypeFieldsWidget> {
       _messageController.clear();
       _textController.clear();
       _wifiSecurity = 'WPA';
-      
+
       widget.onContentChanged('');
       widget.onTitleChanged(null);
     }
@@ -98,8 +98,10 @@ class _QrTypeFieldsWidgetState extends State<QrTypeFieldsWidget> {
           content = 'mailto:$email';
           if (subject.isNotEmpty || body.isNotEmpty) {
             final params = <String>[];
-            if (subject.isNotEmpty) params.add('subject=${Uri.encodeComponent(subject)}');
-            if (body.isNotEmpty) params.add('body=${Uri.encodeComponent(body)}');
+            if (subject.isNotEmpty)
+              params.add('subject=${Uri.encodeComponent(subject)}');
+            if (body.isNotEmpty)
+              params.add('body=${Uri.encodeComponent(body)}');
             content += '?${params.join('&')}';
           }
         }
@@ -153,7 +155,6 @@ class _QrTypeFieldsWidgetState extends State<QrTypeFieldsWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         // Campo de título (sempre visível)
@@ -178,7 +179,6 @@ class _QrTypeFieldsWidgetState extends State<QrTypeFieldsWidget> {
   }
 
   List<Widget> _buildTypeSpecificFields() {
-    
     switch (widget.selectedType) {
       case QrCodeType.email:
         return [

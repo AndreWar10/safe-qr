@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/scan_state.dart';
+import '../../domain/services/qr_security_validator.dart';
 import '../../domain/usecases/validate_qr_security.dart';
 import '../../domain/usecases/save_scanned_qr_code.dart';
 import '../../../history/domain/entities/qr_history_item.dart';
@@ -49,22 +50,28 @@ class ScanQrCubit extends Cubit<ScanState> {
     emit(const ScanState.cameraNotAvailable());
   }
 
-  Future<void> processScannedQr(String qrContent) async {
+  Future<ScannedQrData?> processScannedQr(String qrContent) async {
     try {
       emit(const ScanState.scanning());
-      
+
       // Valida a segurança do QR Code
       final scannedData = await _validateQrSecurity(qrContent);
-      
+
       // Salva no histórico do scanner
       await _saveScannedQrCode(scannedData);
-      
+
       // Salva no histórico geral
       await _saveToHistory(scannedData);
-      
+
       emit(const ScanState.success());
+      return scannedData;
+    } on QrSecurityException catch (error) {
+      emit(ScanState.error(error.message));
+      return null;
     } catch (e) {
-      emit(ScanState.error('Erro ao processar QR Code: ${e.toString()}'));
+      emit(ScanState.error(
+          'Erro ao processar QR Code. Tente novamente mais tarde.'));
+      return null;
     }
   }
 
@@ -81,13 +88,14 @@ class ScanQrCubit extends Cubit<ScanState> {
         securityLevel: scannedData.securityLevel.name,
         securityMessage: scannedData.securityMessage,
       );
-      
+
       await _saveHistoryItem(historyItem);
-      
+
       // Notifica o HistoryCubit para recarregar
       _historyCubit.loadHistory();
-      
-      debugPrint('✅ QR Code escaneado salvo no histórico: ${scannedData.content}');
+
+      debugPrint(
+          '✅ QR Code escaneado salvo no histórico: ${scannedData.content}');
     } catch (e) {
       // Log do erro, mas não interrompe o fluxo principal
       debugPrint('❌ Erro ao salvar no histórico: $e');
@@ -98,4 +106,3 @@ class ScanQrCubit extends Cubit<ScanState> {
     emit(const ScanState.initial());
   }
 }
-

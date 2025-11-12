@@ -29,7 +29,8 @@ class AppShell extends StatelessWidget {
           ),
           bottomNavigationBar: AppBottomNavigationBar(
             currentIndex: state.currentIndex,
-            onTap: (index) => context.read<NavigationCubit>().navigateToTab(index),
+            onTap: (index) =>
+                context.read<NavigationCubit>().navigateToTab(index),
           ),
         );
       },

@@ -20,9 +20,9 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
   QrGeneratorCubit({
     required SaveHistoryItem saveHistoryItem,
     required HistoryCubit historyCubit,
-  }) : _saveHistoryItem = saveHistoryItem,
-       _historyCubit = historyCubit,
-       super(const QrGeneratorInitial());
+  })  : _saveHistoryItem = saveHistoryItem,
+        _historyCubit = historyCubit,
+        super(const QrGeneratorInitial());
 
   /// Limpa recursos para economizar memória
   void clearResources() {
@@ -35,7 +35,8 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
     _cachedQrData = null;
   }
 
-  void generateQrCode(String content, {String? title, QrCodeType type = QrCodeType.text}) {
+  void generateQrCode(String content,
+      {String? title, QrCodeType type = QrCodeType.text}) {
     if (content.trim().isEmpty) {
       emit(const QrGeneratorError('O conteúdo não pode estar vazio'));
       return;
@@ -64,7 +65,7 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
         }
 
         emit(QrGeneratorSuccess(qrData));
-        
+
         // Salva no histórico
         _saveToHistory(qrData);
       });
@@ -84,12 +85,12 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
         createdAt: DateTime.now(),
         qrType: qrData.type.name,
       );
-      
+
       await _saveHistoryItem(historyItem);
-      
+
       // Notifica o HistoryCubit para recarregar
       _historyCubit.loadHistory();
-      
+
       // Notifica que um novo item foi adicionado ao histórico
       debugPrint('✅ QR Code salvo no histórico: ${qrData.content}');
     } catch (e) {
@@ -102,7 +103,7 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
     // Limpa o cache da imagem
     _cachedQrImage = null;
     _cachedQrData = null;
-    
+
     emit(const QrGeneratorReset());
     // Volta ao estado inicial após um pequeno delay
     Future.delayed(const Duration(milliseconds: 100), () {
@@ -125,10 +126,10 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
     final currentState = state;
     if (currentState is QrGeneratorSuccess) {
       final qrData = currentState.qrCodeData;
-      
+
       try {
         File imageFile;
-        
+
         // Usa a imagem em cache se disponível, senão gera uma nova
         if (_cachedQrImage != null && _cachedQrData == qrData) {
           imageFile = _cachedQrImage!;
@@ -137,7 +138,7 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
           _cachedQrImage = imageFile;
           _cachedQrData = qrData;
         }
-        
+
         // Compartilha a imagem
         await Share.shareXFiles(
           [XFile(imageFile.path)],
@@ -160,7 +161,6 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
       data: qrData.content,
       version: QrVersions.auto,
       gapless: false,
-
       eyeStyle: const QrEyeStyle(
         eyeShape: QrEyeShape.square,
         color: Colors.black,
@@ -172,30 +172,31 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
     );
 
     // Gera a imagem do QR Code
-    final picData = await painter.toImageData(300, format: ui.ImageByteFormat.png);
+    final picData =
+        await painter.toImageData(300, format: ui.ImageByteFormat.png);
     final imageData = picData!.buffer.asUint8List();
-    
+
     // Salva a imagem em um arquivo temporário
     final tempDir = await getTemporaryDirectory();
     final fileName = 'qr_code_${DateTime.now().millisecondsSinceEpoch}.png';
     final file = File('${tempDir.path}/$fileName');
     await file.writeAsBytes(imageData);
-    
+
     return file;
   }
 
   String _buildShareText(QrCodeData qrData) {
     final buffer = StringBuffer();
-    
+
     if (qrData.title != null) {
       buffer.writeln('📱 ${qrData.title}');
       buffer.writeln();
     }
-    
+
     buffer.writeln('🔗 Conteúdo do QR Code:');
     buffer.writeln(qrData.content);
     buffer.writeln();
-    
+
     switch (qrData.type) {
       case QrCodeType.email:
         buffer.writeln('📧 Tipo: Email');
@@ -218,10 +219,10 @@ class QrGeneratorCubit extends Cubit<QrGeneratorState> {
       default:
         buffer.writeln('📱 Tipo: QR Code');
     }
-    
+
     buffer.writeln();
     buffer.writeln('Criado com Safe QR App');
-    
+
     return buffer.toString();
   }
 }

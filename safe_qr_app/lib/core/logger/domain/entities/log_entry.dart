@@ -35,20 +35,20 @@ class LogEntry extends Equatable {
   /// Cria uma entrada de log formatada
   String get formattedMessage {
     final buffer = StringBuffer();
-    
+
     buffer.write('[${timestamp.toIso8601String()}] ');
     buffer.write('${level.emoji} ${level.name}');
-    
+
     if (tag != null) {
       buffer.write(' [$tag]');
     }
-    
+
     buffer.write(': $message');
-    
+
     if (metadata != null && metadata!.isNotEmpty) {
       buffer.write(' | Metadata: $metadata');
     }
-    
+
     return buffer.toString();
   }
 

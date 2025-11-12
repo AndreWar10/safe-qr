@@ -10,4 +10,3 @@ class GetScannedQrCodes {
     return await _repository.getScannedQrCodes();
   }
 }
-

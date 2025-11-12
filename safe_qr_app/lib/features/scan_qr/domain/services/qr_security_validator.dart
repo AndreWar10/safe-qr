@@ -1,7 +1,14 @@
-import '../entities/scanned_qr_data.dart';
+import '../entities/qr_security_report.dart';
 
-abstract class QrSecurityValidator {
-  Future<QrSecurityLevel> validateSecurity(String qrContent);
-  String? getSecurityMessage(QrSecurityLevel level, String qrContent);
+class QrSecurityException implements Exception {
+  QrSecurityException(this.message);
+
+  final String message;
+
+  @override
+  String toString() => message;
 }
 
+abstract class QrSecurityValidator {
+  Future<QrSecurityReport> validateSecurity(String qrContent);
+}

@@ -36,7 +36,6 @@ class QrActionsWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-
             Row(
               children: [
                 Expanded(
@@ -62,9 +61,7 @@ class QrActionsWidget extends StatelessWidget {
                 ),
               ],
             ),
-            
             const SizedBox(height: 12),
-            
             SizedBox(
               width: double.infinity,
               child: TextButton.icon(

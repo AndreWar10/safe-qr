@@ -1,4 +1,6 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/theme/data/repositories/theme_repository_impl.dart';
 import 'core/theme/domain/repositories/theme_repository.dart';
@@ -119,8 +121,18 @@ Future<void> configureDependencies() async {
     () => ScanQrRepositoryImpl(getIt<SharedPreferences>()),
   );
 
+  getIt.registerLazySingleton<http.Client>(
+    () => http.Client(),
+    dispose: (client) => client.close(),
+  );
+
+  final backendUrl = dotenv.env['SAFE_QR_API_URL'] ?? 'http://10.0.2.2:8080';
+
   getIt.registerLazySingleton<QrSecurityValidator>(
-    () => QrSecurityValidatorImpl(),
+    () => QrSecurityValidatorImpl(
+      httpClient: getIt<http.Client>(),
+      baseUrl: backendUrl,
+    ),
   );
 
   getIt.registerLazySingleton<GetScannedQrCodes>(
@@ -135,14 +147,14 @@ Future<void> configureDependencies() async {
     () => ValidateQrSecurity(getIt<QrSecurityValidator>()),
   );
 
-         getIt.registerFactory<ScanQrCubit>(
-           () => ScanQrCubit(
-             validateQrSecurity: getIt<ValidateQrSecurity>(),
-             saveScannedQrCode: getIt<SaveScannedQrCode>(),
-             saveHistoryItem: getIt<SaveHistoryItem>(),
-             historyCubit: getIt<HistoryCubit>(),
-           ),
-         );
+  getIt.registerFactory<ScanQrCubit>(
+    () => ScanQrCubit(
+      validateQrSecurity: getIt<ValidateQrSecurity>(),
+      saveScannedQrCode: getIt<SaveScannedQrCode>(),
+      saveHistoryItem: getIt<SaveHistoryItem>(),
+      historyCubit: getIt<HistoryCubit>(),
+    ),
+  );
 
   // History Dependencies
   getIt.registerLazySingleton<HistoryRepository>(
@@ -173,20 +185,20 @@ Future<void> configureDependencies() async {
     () => ClearHistory(getIt<HistoryRepository>()),
   );
 
-         getIt.registerLazySingleton<HistoryCubit>(
-           () => HistoryCubit(
-             getGeneratedHistory: getIt<GetGeneratedHistory>(),
-             getScannedHistory: getIt<GetScannedHistory>(),
-             saveHistoryItem: getIt<SaveHistoryItem>(),
-             deleteHistoryItem: getIt<DeleteHistoryItem>(),
-             clearHistory: getIt<ClearHistory>(),
-           ),
-         );
+  getIt.registerLazySingleton<HistoryCubit>(
+    () => HistoryCubit(
+      getGeneratedHistory: getIt<GetGeneratedHistory>(),
+      getScannedHistory: getIt<GetScannedHistory>(),
+      saveHistoryItem: getIt<SaveHistoryItem>(),
+      deleteHistoryItem: getIt<DeleteHistoryItem>(),
+      clearHistory: getIt<ClearHistory>(),
+    ),
+  );
 
-         getIt.registerFactory<QrGeneratorCubit>(
-           () => QrGeneratorCubit(
-             saveHistoryItem: getIt<SaveHistoryItem>(),
-             historyCubit: getIt<HistoryCubit>(),
-           ),
-         );
+  getIt.registerFactory<QrGeneratorCubit>(
+    () => QrGeneratorCubit(
+      saveHistoryItem: getIt<SaveHistoryItem>(),
+      historyCubit: getIt<HistoryCubit>(),
+    ),
+  );
 }
