@@ -19,7 +19,7 @@
     },
     {
       "name": "test",
-      "version": "1.27.0",
+      "version": "1.26.3",
       "dependencies": [
         "analyzer",
         "async",
@@ -124,7 +124,7 @@
     },
     {
       "name": "test_core",
-      "version": "0.6.13",
+      "version": "0.6.12",
       "dependencies": [
         "analyzer",
         "args",
@@ -151,7 +151,7 @@
     },
     {
       "name": "test_api",
-      "version": "0.7.8",
+      "version": "0.7.7",
       "dependencies": [
         "async",
         "boolean_selector",
@@ -254,7 +254,7 @@
     },
     {
       "name": "js",
-      "version": "0.7.2",
+      "version": "0.7.1",
       "dependencies": []
     },
     {
@@ -313,7 +313,7 @@
     },
     {
       "name": "analyzer",
-      "version": "9.0.0",
+      "version": "7.7.1",
       "dependencies": [
         "_fe_analyzer_shared",
         "collection",
@@ -462,7 +462,7 @@
     },
     {
       "name": "_fe_analyzer_shared",
-      "version": "92.0.0",
+      "version": "85.0.0",
       "dependencies": [
         "meta"
       ]
