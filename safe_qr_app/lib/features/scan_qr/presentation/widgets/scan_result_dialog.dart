@@ -279,7 +279,10 @@ class ScanResultDialog extends StatelessWidget {
   Future<void> _openContent(String content) async {
     final uri = Uri.parse(content);
     if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+      await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
     }
   }
 }

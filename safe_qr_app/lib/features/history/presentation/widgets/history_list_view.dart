@@ -270,10 +270,15 @@ class HistoryListView extends StatelessWidget {
     );
   }
 
-  void _openItem(BuildContext context, QrHistoryItem item) {
+  Future<void> _openItem(BuildContext context, QrHistoryItem item) async {
     if (_canOpenContent(item.content)) {
       final uri = Uri.parse(item.content);
-      launchUrl(uri);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      }
     }
   }
 
